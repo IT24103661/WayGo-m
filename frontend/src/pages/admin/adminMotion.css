@@ -1,0 +1,118 @@
+@keyframes wgFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wgHeroLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-22px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes wgHeroPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wgHeroRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wgHeroTilt {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(8deg) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(900px) rotateX(0deg) translateY(0);
+  }
+}
+
+@keyframes wgHeroZoom {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes wgHeroRight {
+  from {
+    opacity: 0;
+    transform: translateX(22px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.wg-admin-motion > * {
+  opacity: 0;
+  animation: wgFadeUp 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.wg-admin-motion > *:nth-child(1) { animation-delay: 0.02s; }
+.wg-admin-motion > *:nth-child(2) { animation-delay: 0.1s; }
+.wg-admin-motion > *:nth-child(3) { animation-delay: 0.16s; }
+.wg-admin-motion > *:nth-child(4) { animation-delay: 0.22s; }
+.wg-admin-motion > *:nth-child(5) { animation-delay: 0.28s; }
+.wg-admin-motion > *:nth-child(6) { animation-delay: 0.34s; }
+.wg-admin-motion > *:nth-child(7) { animation-delay: 0.4s; }
+
+.wg-motion-overview > :first-child {
+  animation: wgHeroLeft 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.wg-motion-analytics > :first-child {
+  animation: wgHeroPop 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.wg-motion-staff > :first-child {
+  animation: wgHeroRise 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.wg-motion-config > :first-child {
+  animation: wgHeroTilt 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: center top;
+}
+
+.wg-motion-salaries > :first-child {
+  animation: wgHeroZoom 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.wg-motion-conflicts > :first-child {
+  animation: wgHeroRight 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

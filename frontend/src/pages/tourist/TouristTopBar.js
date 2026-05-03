@@ -1,0 +1,53 @@
+import { MdMenu, MdNotificationsNone, MdSearch } from 'react-icons/md';
+
+export default function TouristTopBar({ title, subtitle, onMenuClick }) {
+  return (
+    <header className="sticky top-0 z-20 px-6 pt-6">
+      <div className="flex items-center justify-between bg-white/90 backdrop-blur-md border border-cyan-100 rounded-2xl px-5 h-16 shadow-[0_20px_50px_-40px_rgba(8,145,178,0.4)]">
+        
+        {/* Title & Mobile Toggle */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden p-2 rounded-xl text-cyan-700 hover:bg-cyan-100 hover:text-cyan-900 transition-colors"
+          >
+            <MdMenu className="text-2xl" />
+          </button>
+          <div>
+            <h1 className="text-lg sm:text-xl font-bold text-cyan-950 leading-tight tracking-tight">{title}</h1>
+            {subtitle && <p className="text-xs sm:text-sm text-cyan-700/80 font-medium">{subtitle}</p>}
+          </div>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          {/* Search Bar (Hidden on mobile for now) */}
+          <div className="hidden md:flex items-center px-4 py-2 bg-cyan-50 rounded-full w-64 border border-cyan-200 focus-within:border-cyan-400 focus-within:bg-white transition-all shadow-inner overflow-hidden">
+            <MdSearch className="text-cyan-500 text-xl mr-2" />
+            <input 
+              type="text" 
+              placeholder="Search tours, cities, or guides..." 
+              className="bg-transparent border-none outline-none text-sm w-full text-cyan-900 placeholder-cyan-400/80 font-medium"
+            />
+          </div>
+
+          {/* Notifications */}
+          <button className="relative p-2.5 rounded-full text-cyan-700 hover:bg-cyan-100 hover:text-cyan-900 transition-colors shadow-sm hover:shadow-md">
+            <MdNotificationsNone className="text-xl" />
+            <span className="absolute top-2 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white animate-pulse shadow-[0_0_8px_rgba(244,63,94,0.6)]"></span>
+          </button>
+          
+          {/* Quick Logout Fix */}
+          <button 
+            onClick={() => {
+              localStorage.clear();
+              window.location.href = '/login';
+            }}
+            className="text-xs font-bold text-rose-500 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
