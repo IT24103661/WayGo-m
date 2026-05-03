@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Vehicle = require('../models/Vehicle');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -47,7 +48,7 @@ function clearTransientFailures(identifier) {
 /* ─ helper: build a signed JWT ─ */
 const signToken = (user) =>
     jwt.sign(
-        { userId: user._id, role: user.role },
+        { userId: user._id, role: user.role, email: user.email },
         process.env.JWT_SECRET,
         { expiresIn: '1d' }
     );
@@ -303,13 +304,26 @@ exports.loginUser = async (req, res) => {
 // ─────────────────────────────────────
 exports.getProfile = async (req, res) => {
     try {
-        // req.user is set by authMiddleware (contains userId)
-        const user = await User.findById(req.user.userId).select('-password');
+        const requesterId = req.user?.userId;
+        const requesterEmail = String(req.user?.email || '').toLowerCase().trim();
+        let user = null;
+
+        if (requesterId && mongoose.Types.ObjectId.isValid(requesterId)) {
+            user = await User.findById(requesterId).select('-password');
+        } else if (requesterEmail) {
+            user = await User.findOne({ email: requesterEmail }).select('-password');
+        } else {
+            return res.status(401).json({ message: 'Invalid authentication token payload.' });
+        }
+
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
         return res.json({ user });
     } catch (error) {
+        if (error?.name === 'CastError') {
+            return res.status(401).json({ message: 'Invalid authentication token payload.' });
+        }
         console.error('GetProfile error:', error);
         return res.status(500).json({ message: 'Server error fetching profile.' });
     }
