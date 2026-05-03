@@ -9,10 +9,12 @@ import TourManagerProfileSection from './sections/TourManagerProfileSection';
 import StayRequestsSection from './sections/StayRequestsSection';
 import StayInventorySection from './sections/StayInventorySection';
 import StayBoardSection from './sections/StayBoardSection';
+import useMobileDrawerLock from '../../hooks/useMobileDrawerLock';
 
 export default function TourManagerDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  useMobileDrawerLock(sidebarOpen);
 
   const segment = location.pathname.split('/').filter(Boolean).pop();
   const PAGE_META = {
@@ -25,9 +27,8 @@ export default function TourManagerDashboard() {
     profile: { title: 'Manager Profile', subtitle: 'Account management and settings' },
   };
   const meta = PAGE_META[segment] || PAGE_META.overview;
-
   return (
-    <div className="relative flex h-screen overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
+    <div className="relative flex h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
       <div className="pointer-events-none absolute -top-28 -right-16 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-sky-300/20 blur-3xl" />
 
@@ -40,7 +41,7 @@ export default function TourManagerDashboard() {
             subtitle={meta.subtitle}
             onMenuClick={() => setSidebarOpen(true)}
           />
-          <main className="flex-1 overflow-y-auto px-6 pb-6 pt-4 bg-gradient-to-b from-white/30 via-transparent to-transparent">
+          <main className="wg-mobile-main flex-1 overflow-y-auto px-3 pb-6 pt-3 sm:px-6 sm:pt-4 bg-gradient-to-b from-white/30 via-transparent to-transparent">
             <Routes>
               <Route index element={<Navigate to="overview" replace />} />
               <Route path="overview" element={<OverviewSection />} />

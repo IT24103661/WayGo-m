@@ -2,7 +2,7 @@ import { MdMenu, MdNotificationsNone, MdSearch } from 'react-icons/md';
 
 export default function DriverTopBar({ title, subtitle, onMenuClick }) {
   return (
-    <header className="sticky top-0 z-20 px-6 pt-6">
+    <header className="wg-mobile-topbar sticky top-0 z-20 px-3 sm:px-6">
       <div className="flex items-center justify-between bg-white/90 backdrop-blur-md border border-cyan-100 rounded-2xl px-5 h-16 shadow-[0_20px_50px_-40px_rgba(8,145,178,0.4)]">
         <div className="flex items-center gap-4">
           <button

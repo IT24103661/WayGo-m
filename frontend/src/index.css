@@ -16,6 +16,19 @@
   }
 }
 
+:root {
+  --wg-safe-top: env(safe-area-inset-top, 0px);
+  --wg-safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.wg-mobile-topbar {
+  padding-top: max(1rem, var(--wg-safe-top));
+}
+
+.wg-mobile-main {
+  padding-bottom: max(1.5rem, calc(1rem + var(--wg-safe-bottom)));
+}
+
 @layer utilities {
   .text-gradient {
     @apply bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-transparent;

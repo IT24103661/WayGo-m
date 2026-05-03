@@ -2,7 +2,7 @@ import { MdMenu, MdNotificationsNone, MdSearch } from 'react-icons/md';
 
 export default function TouristTopBar({ title, subtitle, onMenuClick }) {
   return (
-    <header className="sticky top-0 z-20 px-6 pt-6">
+    <header className="wg-mobile-topbar sticky top-0 z-20 px-3 sm:px-6">
       <div className="flex items-center justify-between bg-white/90 backdrop-blur-md border border-cyan-100 rounded-2xl px-5 h-16 shadow-[0_20px_50px_-40px_rgba(8,145,178,0.4)]">
         
         {/* Title & Mobile Toggle */}
@@ -43,7 +43,7 @@ export default function TouristTopBar({ title, subtitle, onMenuClick }) {
               localStorage.clear();
               window.location.href = '/login';
             }}
-            className="text-xs font-bold text-rose-500 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">
+            className="hidden sm:inline-flex text-xs font-bold text-rose-500 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">
             Logout
           </button>
         </div>

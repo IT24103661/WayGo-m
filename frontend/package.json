@@ -17,6 +17,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:mobile": "HOST=0.0.0.0 PORT=3000 react-scripts start",
+    "tunnel": "npx localtunnel --port 3000",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

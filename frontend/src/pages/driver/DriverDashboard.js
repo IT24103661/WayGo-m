@@ -7,10 +7,12 @@ import PendingRequestsSection from './sections/PendingRequestsSection';
 import ItinerariesSection from './sections/ItinerariesSection';
 import SupportSection from './sections/SupportSection';
 import SettingsSection from './sections/SettingsSection';
+import useMobileDrawerLock from '../../hooks/useMobileDrawerLock';
 
 export default function DriverDashboard() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const location = useLocation();
+	useMobileDrawerLock(sidebarOpen);
 
 	const segment = location.pathname.split('/').filter(Boolean).pop();
 	const PAGE_META = {
@@ -21,9 +23,8 @@ export default function DriverDashboard() {
 		support: { title: 'Support', subtitle: 'Get help and report issues' },
 	};
 	const meta = PAGE_META[segment] || PAGE_META.overview;
-
 	return (
-		<div className="relative flex h-screen overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
+		<div className="relative flex h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
 			<div className="pointer-events-none absolute -top-28 -right-16 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl" />
 			<div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-sky-300/20 blur-3xl" />
 			<div className="relative z-10 flex h-full w-full">
@@ -35,7 +36,7 @@ export default function DriverDashboard() {
 						subtitle={meta.subtitle}
 						onMenuClick={() => setSidebarOpen(true)}
 					/>
-					<main className="flex-1 overflow-y-auto px-6 pb-10 bg-gradient-to-b from-white/30 via-transparent to-transparent">
+					<main className="wg-mobile-main flex-1 overflow-y-auto px-3 pb-10 bg-gradient-to-b from-white/30 via-transparent to-transparent sm:px-6">
 						<Routes>
 							<Route index element={<Navigate to="overview" replace />} />
 							<Route path="overview" element={<OverviewSection />} />

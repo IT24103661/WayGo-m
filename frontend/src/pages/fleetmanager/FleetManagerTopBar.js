@@ -64,7 +64,7 @@ export default function FleetManagerTopBar({ title, subtitle, onMenuClick, segme
   const SegmentIcon = tabStyle.icon;
 
   return (
-    <header className="sticky top-0 z-10 px-6 pt-5 flex-shrink-0">
+    <header className="wg-mobile-topbar sticky top-0 z-10 px-3 sm:px-6 flex-shrink-0">
       <div className="h-16 bg-white/90 backdrop-blur-md border border-cyan-100 rounded-2xl shadow-[0_20px_50px_-40px_rgba(8,145,178,0.4)] px-5 flex items-center justify-between">
       <div className="flex items-center gap-3 min-w-0">
         <button

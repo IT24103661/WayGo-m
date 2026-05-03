@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import TouristSidebar from './TouristSidebar';
 import TouristTopBar from './TouristTopBar';
 import OverviewSection from './sections/OverviewSection';
@@ -10,11 +10,14 @@ import FleetBookingsSection from './sections/FleetBookingsSection';
 import ReviewsSection from './sections/ReviewsSection';
 import NotificationsSection from './sections/NotificationsSection';
 import SupportSection from './sections/SupportSection';
+import useMobileDrawerLock from '../../hooks/useMobileDrawerLock';
 
 export default function TouristDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  useMobileDrawerLock(sidebarOpen);
 
-  const segment = window.location.pathname.split('/').filter(Boolean).pop();
+  const segment = location.pathname.split('/').filter(Boolean).pop();
   const PAGE_META = {
     overview: { title: 'Dashboard', subtitle: 'Welcome back to your travel hub!' },
     tours: { title: 'Browse Tours', subtitle: 'Discover amazing travel packages' },
@@ -25,9 +28,8 @@ export default function TouristDashboard() {
     support: { title: 'Support', subtitle: 'Get help whenever you need it' },
   };
   const meta = PAGE_META[segment] || PAGE_META.overview;
-
   return (
-    <div className="relative flex h-screen overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
+    <div className="relative flex h-[100dvh] min-h-[100dvh] overflow-hidden bg-[#f0fbff]" style={{ fontFamily: '"Space Grotesk", "Sora", "Segoe UI", sans-serif' }}>
       {/* Background Blobs */}
       <div className="pointer-events-none absolute -top-28 -right-16 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-sky-300/20 blur-3xl" />
@@ -41,7 +43,7 @@ export default function TouristDashboard() {
             subtitle={meta.subtitle}
             onMenuClick={() => setSidebarOpen(true)}
           />
-          <main className="flex-1 overflow-y-auto px-6 pb-10 bg-gradient-to-b from-white/30 via-transparent to-transparent">
+          <main className="wg-mobile-main flex-1 overflow-y-auto px-3 pb-10 bg-gradient-to-b from-white/30 via-transparent to-transparent sm:px-6">
             <Routes>
               <Route index element={<Navigate to="overview" replace />} />
               <Route path="overview" element={<OverviewSection />} />
