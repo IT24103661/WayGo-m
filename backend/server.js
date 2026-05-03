@@ -55,13 +55,40 @@ app.use((err, req, res, next) => {
   return next(err);
 });
 
-// Connect to DB — only start the server after a successful connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const shouldRetryMongoError = (error) => {
+  const message = String(error?.message || '').toLowerCase();
+  return message.includes('enotfound')
+    || message.includes('querysrv')
+    || message.includes('eai_again')
+    || message.includes('timed out');
+};
+
+const connectWithRetry = async (maxAttempts = 5) => {
+  let attempt = 1;
+
+  while (attempt <= maxAttempts) {
+    try {
+      await mongoose.connect(process.env.MONGO_URI, { family: 4 });
+      return;
+    } catch (error) {
+      const canRetry = shouldRetryMongoError(error) && attempt < maxAttempts;
+      if (!canRetry) throw error;
+
+      console.warn(`⚠️ MongoDB connect attempt ${attempt} failed: ${error.message}`);
+      await wait(2000 * attempt);
+      attempt += 1;
+    }
+  }
+};
+
+const startServer = async () => {
+  try {
+    await connectWithRetry();
     console.log('✅ MongoDB Connected!');
     console.log(`   Database: ${mongoose.connection.name}`);
 
-    // Keep salary indexes aligned with schema (drops stale unique indexes if needed).
     DriverSalary.syncIndexes().catch((error) => {
       console.warn('⚠️ DriverSalary index sync warning:', error.message);
     });
@@ -70,11 +97,13 @@ mongoose.connect(process.env.MONGO_URI)
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port: ${PORT}`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error('❌ MongoDB Connection Error:', err.message);
     process.exit(1);
-  });
+  }
+};
+
+startServer();
 
 mongoose.connection.on('disconnected', () => console.warn('⚠️  MongoDB disconnected'));
 mongoose.connection.on('reconnected',  () => console.log('🔄 MongoDB reconnected'));
